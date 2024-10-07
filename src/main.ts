@@ -12,11 +12,15 @@ app.append(header);
 let counter: number = 0;
 const message = document.createElement("div");
 message.innerHTML = `${counter} sarcastic comments`;
-app.append(message)
+app.append(message);
 
 const button = document.createElement("button");
 button.innerHTML = "🙃";
-button.addEventListener("click", () => {
+button.addEventListener("click", makeComment);
+
+setInterval(makeComment, 1000);
+
+function makeComment() {
     message.innerHTML = `${++counter} sarcastic comments`;
-})
+}
 app.append(button);
