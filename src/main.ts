@@ -9,7 +9,7 @@ const header = document.createElement("h1");
 header.innerHTML = gameName;
 app.append(header);
 
-let counter: number = 0;
+let counter = 0;
 const message = document.createElement("div");
 message.innerHTML = `${counter} sarcastic comments`;
 app.append(message);
@@ -19,34 +19,35 @@ button.innerHTML = "🙃";
 button.addEventListener("click", makeComment);
 app.append(button);
 
-function makeComment() {
-  message.innerHTML = `${++counter} sarcastic comments`;
-}
-
 const upgrade = document.createElement("button");
 upgrade.innerHTML = "10 bob";
 upgrade.addEventListener("click", updateGrowth);
 app.append(upgrade);
 
+function makeComment() {
+  message.innerHTML = `${++counter} sarcastic comments`;
+}
+
 const UPGRADE_COST = 10;
-let growth_rate = 0;
 function updateGrowth() {
-  growth_rate++;
   counter -= UPGRADE_COST;
+  growth_rate++;
 }
 
 const PER_SECOND = 1000;
-let zero = performance.now();
+let growth_rate = 0;
+let lastFrame = performance.now();
+
 requestAnimationFrame((t) => update(t));
 
 function update(timestamp: number) {
-  if (counter < 10) upgrade.disabled = true;
+  if (counter < UPGRADE_COST) upgrade.disabled = true;
   else upgrade.disabled = false;
 
-  const elapsed = timestamp - zero;
+  const elapsed = timestamp - lastFrame;
   counter += (elapsed * growth_rate) / PER_SECOND;
   message.innerHTML = `${Math.trunc(counter)} sarcastic comments`;
-  zero = timestamp;
+  lastFrame = timestamp;
 
   requestAnimationFrame((t) => update(t));
 }
