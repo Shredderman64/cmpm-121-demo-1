@@ -17,10 +17,10 @@ app.append(message);
 const button = document.createElement("button");
 button.innerHTML = "🙃";
 button.addEventListener("click", makeComment);
+app.append(button);
 
 setInterval(makeComment, 1000);
 
 function makeComment() {
     message.innerHTML = `${++counter} sarcastic comments`;
 }
-app.append(button);
