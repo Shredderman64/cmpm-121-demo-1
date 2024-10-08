@@ -19,8 +19,17 @@ button.innerHTML = "🙃";
 button.addEventListener("click", makeComment);
 app.append(button);
 
-setInterval(makeComment, 1000);
-
 function makeComment() {
     message.innerHTML = `${++counter} sarcastic comments`;
+}
+
+let zero = performance.now();
+requestAnimationFrame((t) => update(t));
+
+function update(timestamp: number) {
+    const elapsed = timestamp - zero;
+    counter += elapsed;
+    message.innerHTML = `${counter} sarcastic comments`;
+    zero = timestamp;
+    requestAnimationFrame((t) => update(t))
 }
