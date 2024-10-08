@@ -20,16 +20,17 @@ button.addEventListener("click", makeComment);
 app.append(button);
 
 function makeComment() {
-    message.innerHTML = `${++counter} sarcastic comments`;
+  message.innerHTML = `${++counter} sarcastic comments`;
 }
 
+const PER_SECOND = 1000;
 let zero = performance.now();
 requestAnimationFrame((t) => update(t));
 
 function update(timestamp: number) {
-    const elapsed = timestamp - zero;
-    counter += elapsed;
-    message.innerHTML = `${counter} sarcastic comments`;
-    zero = timestamp;
-    requestAnimationFrame((t) => update(t))
+  const elapsed = timestamp - zero;
+  counter += elapsed / PER_SECOND;
+  message.innerHTML = `${Math.trunc(counter)} sarcastic comments`;
+  zero = timestamp;
+  requestAnimationFrame((t) => update(t));
 }
