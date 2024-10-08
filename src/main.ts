@@ -14,6 +14,9 @@ const message = document.createElement("div");
 message.innerHTML = `${counter} sarcastic comments`;
 app.append(message);
 
+const status_rate = document.createElement("div");
+app.append(status_rate);
+
 const button = document.createElement("button");
 button.innerHTML = "🙃";
 button.addEventListener("click", makeComment);
@@ -47,6 +50,7 @@ function update(timestamp: number) {
   const elapsed = timestamp - lastFrame;
   counter += (elapsed * growth_rate) / PER_SECOND;
   message.innerHTML = `${Math.trunc(counter)} sarcastic comments`;
+  status_rate.innerHTML = `${growth_rate} comments/sec`;
   lastFrame = timestamp;
 
   requestAnimationFrame((t) => update(t));
