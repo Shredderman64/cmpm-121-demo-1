@@ -19,16 +19,21 @@ button.innerHTML = "🙃";
 button.addEventListener("click", makeComment);
 app.append(button);
 
-const upgrade = document.createElement("button");
-upgrade.innerHTML = "10 bob";
-app.append(upgrade);
-
 function makeComment() {
   message.innerHTML = `${++counter} sarcastic comments`;
 }
 
+let growth_rate = 0;
+const UPGRADE_COST = 10;
+const upgrade = document.createElement("button");
+upgrade.innerHTML = "10 bob";
+upgrade.addEventListener("click", () => {
+    growth_rate++;
+    counter -= UPGRADE_COST;
+});
+app.append(upgrade);
+
 const PER_SECOND = 1000;
-const growth_rate = 0;
 let zero = performance.now();
 requestAnimationFrame((t) => update(t));
 
@@ -37,5 +42,9 @@ function update(timestamp: number) {
   counter += elapsed * growth_rate / PER_SECOND;
   message.innerHTML = `${Math.trunc(counter)} sarcastic comments`;
   zero = timestamp;
+
+  if (counter < 10) upgrade.disabled = true;
+  else upgrade.disabled = false;
+
   requestAnimationFrame((t) => update(t));
 }
