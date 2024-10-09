@@ -22,6 +22,10 @@ clicker.innerHTML = "🙃";
 clicker.addEventListener("click", makeComment);
 app.append(clicker);
 
+function makeComment() {
+  message.innerHTML = `${++counter} sarcastic comments`;
+}
+
 class Upgrade {
   cost: number = 0;
   rate: number = 0;
@@ -50,9 +54,11 @@ const upgrades: Upgrade[] = [];
 const smallUpgrade = new Upgrade(10, 0.1);
 upgrades.push(smallUpgrade);
 
-function makeComment() {
-  message.innerHTML = `${++counter} sarcastic comments`;
-}
+const mediumUpgrade = new Upgrade(100, 2.0);
+upgrades.push(mediumUpgrade);
+
+const largeUpgrade = new Upgrade(1000, 50);
+upgrades.push(largeUpgrade);
 
 const PER_SECOND = 1000;
 let growth_rate = 0;
