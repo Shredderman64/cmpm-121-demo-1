@@ -14,8 +14,8 @@ const message = document.createElement("div");
 message.innerHTML = `${counter} sarcastic comments`;
 app.append(message);
 
-const status_rate = document.createElement("div");
-app.append(status_rate);
+const status = document.createElement("div");
+app.append(status);
 
 const clicker = document.createElement("button");
 clicker.innerHTML = "🙃";
@@ -27,8 +27,9 @@ function makeComment() {
 }
 
 class Upgrade {
-  cost: number = 0;
-  rate: number = 0;
+  cost: number;
+  rate: number;
+  purchased: number = 0;
   button: HTMLButtonElement;
 
   constructor(cost: number, rate: number) {
@@ -46,6 +47,7 @@ class Upgrade {
   upgradeRate(cost: number, rate: number) {
     counter -= cost;
     growth_rate += rate;
+    this.purchased++;
   }
 }
 
@@ -74,8 +76,13 @@ function update(timestamp: number) {
 
   const elapsed = timestamp - lastFrame;
   counter += (elapsed * growth_rate) / PER_SECOND;
+
   message.innerHTML = `${Math.trunc(counter)} sarcastic comments`;
-  status_rate.innerHTML = `${growth_rate.toFixed(1)} comments/sec`;
+  status.innerHTML = `${growth_rate.toFixed(1)} comments/sec <br>
+  <b>Small:<b> ${smallUpgrade.purchased}<br>
+  <b>Medium:<b> ${mediumUpgrade.purchased}<br>
+  <b>Large:<b> ${largeUpgrade.purchased}`;
+
   lastFrame = timestamp;
 
   requestAnimationFrame((t) => update(t));
