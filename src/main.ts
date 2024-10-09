@@ -37,16 +37,19 @@ class Upgrade {
     this.rate = rate;
 
     this.button = document.createElement("button");
-    this.button.innerHTML = `${cost} bob`;
+    this.button.innerHTML = `Cost: ${cost}`;
     this.button.addEventListener("click", () => {
-      this.upgradeRate(this.cost, this.rate);
+      this.upgradeRate();
     });
     app.append(this.button);
   }
 
-  upgradeRate(cost: number, rate: number) {
-    counter -= cost;
-    growth_rate += rate;
+  upgradeRate() {
+    counter -= this.cost;
+    growth_rate += this.rate;
+
+    this.cost *= 1.15;
+    this.button.innerHTML = `Cost: ${this.cost.toFixed(1)}`;
     this.purchased++;
   }
 }
@@ -79,9 +82,9 @@ function update(timestamp: number) {
 
   message.innerHTML = `${Math.trunc(counter)} sarcastic comments`;
   status.innerHTML = `${growth_rate.toFixed(1)} comments/sec <br>
-  <b>Small:<b> ${smallUpgrade.purchased}<br>
-  <b>Medium:<b> ${mediumUpgrade.purchased}<br>
-  <b>Large:<b> ${largeUpgrade.purchased}`;
+    <b>Small:<b> ${smallUpgrade.purchased}<br>
+    <b>Medium:<b> ${mediumUpgrade.purchased}<br>
+    <b>Large:<b> ${largeUpgrade.purchased}`;
 
   lastFrame = timestamp;
 
