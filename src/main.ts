@@ -17,24 +17,41 @@ app.append(message);
 const status_rate = document.createElement("div");
 app.append(status_rate);
 
-const button = document.createElement("button");
-button.innerHTML = "🙃";
-button.addEventListener("click", makeComment);
-app.append(button);
+const clicker = document.createElement("button");
+clicker.innerHTML = "🙃";
+clicker.addEventListener("click", makeComment);
+app.append(clicker);
 
-const upgrade = document.createElement("button");
-upgrade.innerHTML = "10 bob";
-upgrade.addEventListener("click", updateGrowth);
-app.append(upgrade);
+class Upgrade {
+  cost: number = 0;
+  rate: number = 0;
+  button: HTMLButtonElement;
+
+  constructor(cost: number, rate: number) {
+    this.cost = cost;
+    this.rate = rate;
+
+    this.button = document.createElement("button");
+    this.button.innerHTML = `${cost} bob`;
+    this.button.addEventListener("click", () => {
+      this.upgradeRate(this.cost, this.rate);
+    });
+    app.append(this.button);
+  }
+
+  upgradeRate(cost: number, rate: number) {
+    counter -= cost;
+    growth_rate += rate;
+  }
+}
+
+const upgrades: Upgrade[] = [];
+
+const smallUpgrade = new Upgrade(10, 0.1);
+upgrades.push(smallUpgrade);
 
 function makeComment() {
   message.innerHTML = `${++counter} sarcastic comments`;
-}
-
-const UPGRADE_COST = 10;
-function updateGrowth() {
-  counter -= UPGRADE_COST;
-  growth_rate++;
 }
 
 const PER_SECOND = 1000;
@@ -44,13 +61,15 @@ let lastFrame = performance.now();
 requestAnimationFrame((t) => update(t));
 
 function update(timestamp: number) {
-  if (counter < UPGRADE_COST) upgrade.disabled = true;
-  else upgrade.disabled = false;
+  for (const upgrade of upgrades) {
+    if (counter < upgrade.cost) upgrade.button.disabled = true;
+    else upgrade.button.disabled = false;
+  }
 
   const elapsed = timestamp - lastFrame;
   counter += (elapsed * growth_rate) / PER_SECOND;
   message.innerHTML = `${Math.trunc(counter)} sarcastic comments`;
-  status_rate.innerHTML = `${growth_rate} comments/sec`;
+  status_rate.innerHTML = `${growth_rate.toFixed(1)} comments/sec`;
   lastFrame = timestamp;
 
   requestAnimationFrame((t) => update(t));
