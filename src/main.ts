@@ -4,14 +4,32 @@ const app: HTMLDivElement = document.querySelector("#app")!;
 
 interface Item {
   name: string;
+  description: string;
   cost: number;
   rate: number;
 }
 
 const availableItems: Item[] = [
-  { name: "Caffeine Patch", cost: 10, rate: 0.1 },
-  { name: "Zoomer Army", cost: 100, rate: 2.0 },
-  { name: "Norm.AI", cost: 1000, rate: 50 },
+  {
+    name: "Caffeine Patch",
+    description: "A transdermal patch to keep you grinding",
+    cost: 10,
+    rate: 0.1,
+  },
+  {
+    name: "Zoomer Army",
+    description:
+      "An army of chronically online gremlins to do your social media bidding",
+    cost: 100,
+    rate: 2.0,
+  },
+  {
+    name: "Norm.AI",
+    description:
+      "A Twitter bot that replicates the consciousness of Norm Macdonald",
+    cost: 1000,
+    rate: 50,
+  },
 ];
 
 const gameName = "WOW such a good game";
@@ -44,12 +62,14 @@ class Upgrade {
 
   constructor(
     public name: string,
+    public description: string,
     public cost: number,
     public rate: number,
   ) {
     this.button = document.createElement("button");
     this.button.innerHTML = `<b>${this.name}: ${this.purchased}</b><br>
       <font size=2>Cost: ${this.cost}</font>`;
+    this.button.setAttribute("title", `${this.description}`);
     this.button.addEventListener("click", () => {
       this.upgradeRate();
     });
@@ -69,7 +89,7 @@ class Upgrade {
 
 const upgrades: Upgrade[] = [];
 for (const item of availableItems) {
-  upgrades.push(new Upgrade(item.name, item.cost, item.rate));
+  upgrades.push(new Upgrade(item.name, item.description, item.cost, item.rate));
 }
 
 const PER_SECOND = 1000;
