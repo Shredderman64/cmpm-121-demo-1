@@ -56,9 +56,9 @@ class Upgrade {
 }
 
 const upgrades: Upgrade[] = [
-  new Upgrade("Small", 10, 0.1),
-  new Upgrade("Medium", 100, 2.0),
-  new Upgrade("Large", 1000, 50),
+  new Upgrade("Caffiene Patch", 10, 0.1),
+  new Upgrade("Zoomer Army", 100, 2.0),
+  new Upgrade("Norm.AI", 1000, 50),
 ];
 
 const PER_SECOND = 1000;
