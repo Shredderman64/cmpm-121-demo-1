@@ -27,17 +27,17 @@ function makeComment() {
 }
 
 class Upgrade {
-  cost: number;
-  rate: number;
   purchased: number = 0;
   button: HTMLButtonElement;
 
-  constructor(cost: number, rate: number) {
-    this.cost = cost;
-    this.rate = rate;
-
+  constructor(
+    public name: string,
+    public cost: number,
+    public rate: number,
+  ) {
     this.button = document.createElement("button");
-    this.button.innerHTML = `Cost: ${cost}`;
+    this.button.innerHTML = `${this.name}: ${this.purchased}<br>
+      Cost: ${this.cost}`;
     this.button.addEventListener("click", () => {
       this.upgradeRate();
     });
@@ -49,21 +49,17 @@ class Upgrade {
     growth_rate += this.rate;
 
     this.cost *= 1.15;
-    this.button.innerHTML = `Cost: ${this.cost.toFixed(1)}`;
     this.purchased++;
+    this.button.innerHTML = `${this.name}: ${this.purchased}<br>
+      Cost: ${this.cost.toFixed(1)}`;
   }
 }
 
-const upgrades: Upgrade[] = [];
-
-const smallUpgrade = new Upgrade(10, 0.1);
-upgrades.push(smallUpgrade);
-
-const mediumUpgrade = new Upgrade(100, 2.0);
-upgrades.push(mediumUpgrade);
-
-const largeUpgrade = new Upgrade(1000, 50);
-upgrades.push(largeUpgrade);
+const upgrades: Upgrade[] = [
+  new Upgrade("Small", 10, 0.1),
+  new Upgrade("Medium", 100, 2.0),
+  new Upgrade("Large", 1000, 50),
+];
 
 const PER_SECOND = 1000;
 let growth_rate = 0;
@@ -81,10 +77,7 @@ function update(timestamp: number) {
   counter += (elapsed * growth_rate) / PER_SECOND;
 
   message.innerHTML = `${Math.trunc(counter)} sarcastic comments`;
-  status.innerHTML = `${growth_rate.toFixed(1)} comments/sec <br>
-    <b>Small:<b> ${smallUpgrade.purchased}<br>
-    <b>Medium:<b> ${mediumUpgrade.purchased}<br>
-    <b>Large:<b> ${largeUpgrade.purchased}`;
+  status.innerHTML = `${growth_rate.toFixed(1)} comments/sec<br>`;
 
   lastFrame = timestamp;
 
