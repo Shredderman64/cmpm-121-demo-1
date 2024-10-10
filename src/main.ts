@@ -2,6 +2,18 @@ import "./style.css";
 
 const app: HTMLDivElement = document.querySelector("#app")!;
 
+interface Item {
+  name: string;
+  cost: number;
+  rate: number;
+}
+
+const availableItems: Item[] = [
+  { name: "Caffeine Patch", cost: 10, rate: 0.1 },
+  { name: "Zoomer Army", cost: 100, rate: 2.0 },
+  { name: "Norm.AI", cost: 1000, rate: 50 },
+];
+
 const gameName = "WOW such a good game";
 document.title = gameName;
 
@@ -55,11 +67,10 @@ class Upgrade {
   }
 }
 
-const upgrades: Upgrade[] = [
-  new Upgrade("Caffiene Patch", 10, 0.1),
-  new Upgrade("Zoomer Army", 100, 2.0),
-  new Upgrade("Norm.AI", 1000, 50),
-];
+const upgrades: Upgrade[] = [];
+for (const item of availableItems) {
+  upgrades.push(new Upgrade(item.name, item.cost, item.rate));
+}
 
 const PER_SECOND = 1000;
 let growth_rate = 0;
