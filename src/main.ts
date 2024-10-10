@@ -9,6 +9,11 @@ const header = document.createElement("h1");
 header.innerHTML = gameName;
 app.append(header);
 
+const clicker = document.createElement("button");
+clicker.innerHTML = "<font size=5>🙃</font>";
+clicker.addEventListener("click", makeComment);
+app.append(clicker);
+
 let counter = 0;
 const message = document.createElement("div");
 message.innerHTML = `${counter} sarcastic comments`;
@@ -16,11 +21,6 @@ app.append(message);
 
 const status = document.createElement("div");
 app.append(status);
-
-const clicker = document.createElement("button");
-clicker.innerHTML = "🙃";
-clicker.addEventListener("click", makeComment);
-app.append(clicker);
 
 function makeComment() {
   message.innerHTML = `${++counter} sarcastic comments`;
@@ -36,8 +36,8 @@ class Upgrade {
     public rate: number,
   ) {
     this.button = document.createElement("button");
-    this.button.innerHTML = `${this.name}: ${this.purchased}<br>
-      Cost: ${this.cost}`;
+    this.button.innerHTML = `<b>${this.name}: ${this.purchased}</b><br>
+      <font size=2>Cost: ${this.cost}</font>`;
     this.button.addEventListener("click", () => {
       this.upgradeRate();
     });
@@ -50,8 +50,8 @@ class Upgrade {
 
     this.cost *= 1.15;
     this.purchased++;
-    this.button.innerHTML = `${this.name}: ${this.purchased}<br>
-      Cost: ${this.cost.toFixed(1)}`;
+    this.button.innerHTML = `<b>${this.name}: ${this.purchased}</b><br>
+      <font size=2>Cost: ${this.cost.toFixed(1)}</font>`;
   }
 }
 
