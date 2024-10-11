@@ -12,23 +12,35 @@ interface Item {
 const availableItems: Item[] = [
   {
     name: "Caffeine Patch",
-    description: "A transdermal patch to keep you grinding",
+    description: "A transdermal patch to keep you grinding through the night",
     cost: 10,
     rate: 0.1,
   },
   {
-    name: "Zoomer Army",
-    description:
-      "An army of chronically online gremlins to do your social media bidding",
+    name: "Synthetic Insecurities",
+    description: "Drip-fed insecurities to help forge the mask of wit",
     cost: 100,
     rate: 2.0,
   },
   {
-    name: "Norm.AI",
-    description:
-      "A Twitter bot that replicates the consciousness of Norm Macdonald",
+    name: "Zoomer Army",
+    description: "A legion of chronically online goblins loyal to the cause",
     cost: 1000,
     rate: 50,
+  },
+  {
+    name: "Norm.AI",
+    description:
+      "A Twitter bot that replicates the beautiful mind of Norm Macdonald",
+    cost: 10000,
+    rate: 200,
+  },
+  {
+    name: "Neuralink Backdoor",
+    description:
+      "The future is now. Activate our sleeper agents to produce maximum sarcastic output",
+    cost: 100000,
+    rate: 1000,
   },
 ];
 
