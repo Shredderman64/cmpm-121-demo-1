@@ -51,41 +51,41 @@ const header = document.createElement("h1");
 header.innerHTML = gameName;
 app.append(header);
 
-const data = (function () {
-  let privateCounter = 0;
-  let privateRate = 0;
+const gameData = (function () {
+  let counter = 0;
+  let growthRate = 0;
 
   return {
     getCounter() {
-      return privateCounter;
+      return counter;
     },
     setCounter(val: number) {
-      privateCounter += val;
+      counter += val;
     },
     getRate() {
-      return privateRate;
+      return growthRate;
     },
     setRate(val: number) {
-      privateRate += val;
+      growthRate += val;
     },
   };
 })();
 
-const clicker = document.createElement("button");
-clicker.innerHTML = "<font size=5>🙃</font>";
-clicker.addEventListener("click", makeComment);
-app.append(clicker);
+const commentButton = document.createElement("button");
+commentButton.innerHTML = "<font size=5>🙃</font>";
+commentButton.addEventListener("click", makeComment);
+app.append(commentButton);
 
-const message = document.createElement("div");
-message.innerHTML = `${data.getCounter()} sarcastic comments`;
-app.append(message);
+const counterMessage = document.createElement("div");
+counterMessage.innerHTML = `${gameData.getCounter()} sarcastic comments`;
+app.append(counterMessage);
 
-const status = document.createElement("div");
-app.append(status);
+const statusMessage = document.createElement("div");
+app.append(statusMessage);
 
 function makeComment() {
-  data.setCounter(1);
-  message.innerHTML = `${data.getCounter()} sarcastic comments`;
+  gameData.setCounter(1);
+  counterMessage.innerHTML = `${gameData.getCounter()} sarcastic comments`;
 }
 
 class Upgrade {
@@ -109,10 +109,11 @@ class Upgrade {
   }
 
   upgradeRate() {
-    data.setCounter(-this.cost);
-    data.setRate(this.rate);
+    const rateMultiplier = 1.15;
+    gameData.setCounter(-this.cost);
+    gameData.setRate(this.rate);
 
-    this.cost *= 1.15;
+    this.cost *= rateMultiplier;
     this.purchased++;
     this.button.innerHTML = `<b>${this.name}: ${this.purchased}</b><br>
       <font size=2>Cost: ${this.cost.toFixed(1)}</font>`;
@@ -124,25 +125,25 @@ for (const item of availableItems) {
   upgrades.push(new Upgrade(item.name, item.description, item.cost, item.rate));
 }
 
-const PER_SECOND = 1000;
 let lastFrame = performance.now();
 
 function calculateNewComments(timestamp: number, lastFrame: number) {
+  const perSecond = 1000;
   const timeElapsed = timestamp - lastFrame;
-  const commentsPerFrame = (timeElapsed * data.getRate()) / PER_SECOND;
-  data.setCounter(commentsPerFrame);
+  const commentsPerFrame = (timeElapsed * gameData.getRate()) / perSecond;
+  gameData.setCounter(commentsPerFrame);
 }
 
 function updateStatus() {
-  message.innerHTML = `${Math.trunc(data.getCounter())} sarcastic comments`;
-  status.innerHTML = `${data.getRate().toFixed(1)} comments/sec<br>`;
+  counterMessage.innerHTML = `${Math.trunc(gameData.getCounter())} sarcastic comments`;
+  statusMessage.innerHTML = `${gameData.getRate().toFixed(1)} comments/sec<br>`;
 }
 
 requestAnimationFrame((t) => update(t));
 
 function update(timestamp: number) {
   for (const upgrade of upgrades) {
-    if (data.getCounter() < upgrade.cost) upgrade.button.disabled = true;
+    if (gameData.getCounter() < upgrade.cost) upgrade.button.disabled = true;
     else upgrade.button.disabled = false;
   }
 
