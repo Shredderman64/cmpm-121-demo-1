@@ -51,21 +51,41 @@ const header = document.createElement("h1");
 header.innerHTML = gameName;
 app.append(header);
 
+const data = (function () {
+  let privateCounter = 0;
+  let privateRate = 0;
+
+  return {
+    getCounter() {
+      return privateCounter;
+    },
+    setCounter(val: number) {
+      privateCounter += val;
+    },
+    getRate() {
+      return privateRate;
+    },
+    setRate(val: number) {
+      privateRate += val;
+    },
+  };
+})();
+
 const clicker = document.createElement("button");
 clicker.innerHTML = "<font size=5>🙃</font>";
 clicker.addEventListener("click", makeComment);
 app.append(clicker);
 
-let counter = 0;
 const message = document.createElement("div");
-message.innerHTML = `${counter} sarcastic comments`;
+message.innerHTML = `${data.getCounter()} sarcastic comments`;
 app.append(message);
 
 const status = document.createElement("div");
 app.append(status);
 
 function makeComment() {
-  message.innerHTML = `${++counter} sarcastic comments`;
+  data.setCounter(1);
+  message.innerHTML = `${data.getCounter()} sarcastic comments`;
 }
 
 class Upgrade {
@@ -89,8 +109,8 @@ class Upgrade {
   }
 
   upgradeRate() {
-    counter -= this.cost;
-    growth_rate += this.rate;
+    data.setCounter(-this.cost);
+    data.setRate(this.rate);
 
     this.cost *= 1.15;
     this.purchased++;
@@ -105,22 +125,22 @@ for (const item of availableItems) {
 }
 
 const PER_SECOND = 1000;
-let growth_rate = 0;
 let lastFrame = performance.now();
 
 requestAnimationFrame((t) => update(t));
 
 function update(timestamp: number) {
   for (const upgrade of upgrades) {
-    if (counter < upgrade.cost) upgrade.button.disabled = true;
+    if (data.getCounter() < upgrade.cost) upgrade.button.disabled = true;
     else upgrade.button.disabled = false;
   }
 
   const elapsed = timestamp - lastFrame;
-  counter += (elapsed * growth_rate) / PER_SECOND;
+  const perElapsed = (elapsed * data.getRate()) / PER_SECOND;
+  data.setCounter(perElapsed);
 
-  message.innerHTML = `${Math.trunc(counter)} sarcastic comments`;
-  status.innerHTML = `${growth_rate.toFixed(1)} comments/sec<br>`;
+  message.innerHTML = `${Math.trunc(data.getCounter())} sarcastic comments`;
+  status.innerHTML = `${data.getRate().toFixed(1)} comments/sec<br>`;
 
   lastFrame = timestamp;
 
