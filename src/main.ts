@@ -127,6 +127,17 @@ for (const item of availableItems) {
 const PER_SECOND = 1000;
 let lastFrame = performance.now();
 
+function calculateNewComments(timestamp: number, lastFrame: number) {
+  const timeElapsed = timestamp - lastFrame;
+  const commentsPerFrame = (timeElapsed * data.getRate()) / PER_SECOND;
+  data.setCounter(commentsPerFrame);
+}
+
+function updateStatus() {
+  message.innerHTML = `${Math.trunc(data.getCounter())} sarcastic comments`;
+  status.innerHTML = `${data.getRate().toFixed(1)} comments/sec<br>`;
+}
+
 requestAnimationFrame((t) => update(t));
 
 function update(timestamp: number) {
@@ -135,12 +146,8 @@ function update(timestamp: number) {
     else upgrade.button.disabled = false;
   }
 
-  const elapsed = timestamp - lastFrame;
-  const perElapsed = (elapsed * data.getRate()) / PER_SECOND;
-  data.setCounter(perElapsed);
-
-  message.innerHTML = `${Math.trunc(data.getCounter())} sarcastic comments`;
-  status.innerHTML = `${data.getRate().toFixed(1)} comments/sec<br>`;
+  calculateNewComments(timestamp, lastFrame);
+  updateStatus();
 
   lastFrame = timestamp;
 
