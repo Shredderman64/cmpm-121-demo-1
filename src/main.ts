@@ -88,10 +88,14 @@ const buttonDiv = document.createElement("div");
 buttonDiv.classList.add("buttonDisplay");
 app.append(buttonDiv);
 
+const mainButtonDiv = document.createElement("div");
+buttonDiv.append(mainButtonDiv);
+
 const commentButton = document.createElement("button");
-commentButton.innerHTML = "<font size=5>🙃</font>";
+commentButton.innerHTML = "🙃";
 commentButton.addEventListener("click", makeComment);
-buttonDiv.append(commentButton);
+commentButton.classList.add("mainButton");
+mainButtonDiv.append(commentButton);
 
 function makeComment() {
   gameData.setCounter(1);

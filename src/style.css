@@ -76,6 +76,16 @@ button:focus-visible {
   }
 }
 
+.mainButton {
+  border-radius: 50%;
+  font-size: 60px;
+  padding: 0px;
+  height: 3em;
+  width: 3em;
+}
+.mainButton:hover {
+  background-color: lightyellow;
+}
 .buttonDisplay {
   background-color: #f7b707;
   border-radius: 8px;
