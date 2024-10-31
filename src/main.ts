@@ -47,9 +47,9 @@ const availableItems: Item[] = [
 const gameName = "WOW such a good game";
 document.title = gameName;
 
-const header = document.createElement("h1");
-header.innerHTML = gameName;
-app.append(header);
+const messageDiv = document.createElement("div");
+messageDiv.classList.add("messageDisplay");
+app.append(messageDiv);
 
 const gameData = (function () {
   let counter = 0;
@@ -71,22 +71,34 @@ const gameData = (function () {
   };
 })();
 
-const commentButton = document.createElement("button");
-commentButton.innerHTML = "<font size=5>🙃</font>";
-commentButton.addEventListener("click", makeComment);
-app.append(commentButton);
+const header = document.createElement("h1");
+header.innerHTML = gameName;
+messageDiv.append(header);
 
 const counterMessage = document.createElement("div");
 counterMessage.innerHTML = `${gameData.getCounter()} sarcastic comments`;
-app.append(counterMessage);
+messageDiv.append(counterMessage);
 
 const statusMessage = document.createElement("div");
-app.append(statusMessage);
+messageDiv.append(statusMessage);
+
+app.append(document.createElement("br"));
+
+const buttonDiv = document.createElement("div");
+buttonDiv.classList.add("buttonDisplay");
+app.append(buttonDiv);
+
+const commentButton = document.createElement("button");
+commentButton.innerHTML = "<font size=5>🙃</font>";
+commentButton.addEventListener("click", makeComment);
+buttonDiv.append(commentButton);
 
 function makeComment() {
   gameData.setCounter(1);
   counterMessage.innerHTML = `${gameData.getCounter()} sarcastic comments`;
 }
+
+buttonDiv.append(document.createElement("br"));
 
 class Upgrade {
   purchased: number = 0;
@@ -105,7 +117,7 @@ class Upgrade {
     this.button.addEventListener("click", () => {
       this.upgradeRate();
     });
-    app.append(this.button);
+    buttonDiv.append(this.button);
   }
 
   upgradeRate() {
