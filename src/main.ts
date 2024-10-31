@@ -51,32 +51,23 @@ const messageDiv = document.createElement("div");
 messageDiv.classList.add("messageDisplay");
 app.append(messageDiv);
 
-const gameData = (function () {
+const gameData = function () {
   let counter = 0;
   let growthRate = 0;
 
   return {
-    getCounter() {
-      return counter;
-    },
-    setCounter(val: number) {
-      counter += val;
-    },
-    getRate() {
-      return growthRate;
-    },
-    setRate(val: number) {
-      growthRate += val;
-    },
-  };
-})();
+    getCounter() { return counter; },
+    setCounter(val: number) { counter += val; },
+    getRate() { return growthRate; },
+    setRate(val: number) { growthRate += val; },
+  }
+}();
 
 const header = document.createElement("h1");
 header.innerHTML = gameName;
 messageDiv.append(header);
 
 const counterMessage = document.createElement("div");
-counterMessage.innerHTML = `${gameData.getCounter()} sarcastic comments`;
 messageDiv.append(counterMessage);
 
 const statusMessage = document.createElement("div");
@@ -125,11 +116,11 @@ class Upgrade {
   }
 
   upgradeRate() {
-    const rateMultiplier = 1.15;
+    const costMultiplier = 1.15;
     gameData.setCounter(-this.cost);
     gameData.setRate(this.rate);
 
-    this.cost *= rateMultiplier;
+    this.cost *= costMultiplier;
     this.purchased++;
     this.button.innerHTML = `<b>${this.name}: ${this.purchased}</b><br>
       <font size=2>Cost: ${this.cost.toFixed(1)}</font>`;
